@@ -17,10 +17,15 @@ char ** parse_args (char * line) {
   return ans;
 }
 
-void execute (char* command) {
+void executeOne (char* command) {
   char * line = strdup (command);
   char ** args = parse_args (line);
   printf ("%s...\n", command);
-  execvp (args[0], args);
-  printf ("Didn't work"); 
+  if (fork() == 0){
+    execvp(args[0], args);
+  }
+  else{
+    wait(0);
+  }
+  printf ("Didn't work");
 }
