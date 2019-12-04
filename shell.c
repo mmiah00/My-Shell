@@ -21,7 +21,8 @@ void executeOne (char* command) {
   char * line = strdup (command);
   char ** args = parse_args (line);
   printf ("%s...\n", command);
-  if (fork() == 0){
+  int id = fork();
+  if (id == 0){
     execvp(args[0], args);
   }
   else{
