@@ -32,11 +32,17 @@ void executeOne (char* command) {
 }
 
 void execmultiple (char* command) {
-	char * line = strdup (command); 
-	char ** commands = strsep (&line, ";"); 
-	int i; 
-	while (commands[i] != NULL) { 
-		executeone (commands[i]);  
-		i ++; 
+	char * line = strdup (command);
+	char ** commands = malloc(256);
+  int k = 0;
+  while (line){
+    commands[k] = strsep (&line, ";");
+    k++;
+  }
+
+	int i = 0;
+	while (commands[i] != NULL) {
+		executeOne (commands[i]);
+		i ++;
 	}
 }
