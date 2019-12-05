@@ -20,7 +20,7 @@ char ** parse_args (char * line) {
 void executeOne (char* command) {
   char * line = strdup (command);
   char ** args = parse_args (line);
-  printf ("%s...\n", command);
+  printf ("Running: %s...\n", command);
   int id = fork();
   if (id == 0){
     execvp(args[0], args);
