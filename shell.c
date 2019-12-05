@@ -28,7 +28,6 @@ void executeOne (char* command) {
   else{
     wait(0);
   }
-  printf ("Didn't work");
 }
 
 void execmultiple (char* command) {
