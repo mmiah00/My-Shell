@@ -1,5 +1,5 @@
 all: main.o shell.o
-	gcc -o program main.o shell.o
+	gcc -o main.o shell.o
 
 main.o: main.c shell.h
 	gcc -c main.c
@@ -7,7 +7,7 @@ main.o: main.c shell.h
 shell.o: shell.c shell.h
 	gcc -c shell.c
 run:
-	./program
+	./a.out
 
 clean:
 	rm *.o
