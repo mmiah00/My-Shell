@@ -30,3 +30,13 @@ void executeOne (char* command) {
   }
   printf ("Didn't work");
 }
+
+void execmultiple (char* command) {
+	char * line = strdup (command); 
+	char ** commands = strsep (&line, ";"); 
+	int i; 
+	while (commands[i] != NULL) { 
+		executeone (commands[i]);  
+		i ++; 
+	}
+}
