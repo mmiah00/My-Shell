@@ -13,20 +13,20 @@ char ** parse_args (char * line) {
     ans [i] = strsep (&now, " ");
     i ++;
   }
-
   return ans;
 }
 
 void executeOne (char* command) {
   char * line = strdup (command);
   char ** args = parse_args (line);
-  printf ("Running: %s...\n", command);
-  int id = fork();
-  if (id == 0){
+  //printf ("Running: %s...\n", command);
+  int id = fork(); //creates child process
+  if (id == 0){ //child
     execvp(args[0], args);
+    exit(0);
   }
-  else{
-    wait(0);
+  else{ //parent
+    wait(0); //waits for child to finish
   }
 }
 
@@ -44,4 +44,19 @@ void execmultiple (char* command) {
 		executeOne (commands[i]);
 		i ++;
 	}
+}
+
+
+int main(int argc, char *argv[]){
+  char input[100] = "";
+  int status = 0; //0 is true
+
+  while(status == 0){ //if true then it continues to run
+    printf("%s", "something: ");
+    fgets(input, 100, stdin);
+    input[strlen(input)-1] = '\0';
+    execmultiple(input);
+  }
+
+  return 0;
 }
