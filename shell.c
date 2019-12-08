@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <errno.h> 
+#include <errno.h>
 #include "shell.h"
 
 char ** parse_args (char * line) {
@@ -50,12 +50,6 @@ void redirect (char * filefrom, char * fileto) {
   close (f);
 }
 
-int main () {
-  redirect ("echo hello", "newfile");
-  return 0;
-}
-
-/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -80,4 +74,4 @@ int main(int argc, char *argv[]){
   }
 
   return 0;
-}*/
+}
