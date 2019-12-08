@@ -38,7 +38,10 @@ void executeOne (char** args) {
 }
 
 void redirect (char * filefrom, char * fileto) {
-  executeOne (filefrom);
+  char ** args;
+  args [0] = filefrom;
+  args [1] = fileto;
+  executeOne (args);
   int f = open (fileto, O_RDWR | O_CREAT, 0666);
   int backup = dup (1); //duplicating stdout
   dup2 (f, 1);
@@ -46,7 +49,7 @@ void redirect (char * filefrom, char * fileto) {
 }
 
 int main () {
-  redirect ("echo hello", "newfile");  
+  redirect ("echo hello", "newfile");
   return 0;
 }
 
