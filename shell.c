@@ -41,10 +41,16 @@ void redirect (char * filefrom, char * fileto) {
   executeOne (filefrom);
   int f = open (fileto, O_RDWR | O_CREAT, 0666);
   int backup = dup (1); //duplicating stdout
-  dup2 (f, 1); 
+  dup2 (f, 1);
   close (f);
 }
 
+int main () {
+  redirect ("echo hello", "newfile");  
+  return 0;
+}
+
+/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -69,4 +75,4 @@ int main(int argc, char *argv[]){
   }
 
   return 0;
-}
+}*/
