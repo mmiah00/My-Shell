@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h> 
 #include "shell.h"
 
 char ** parse_args (char * line) {
