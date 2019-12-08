@@ -16,34 +16,25 @@ char ** parse_args (char * line) {
   return ans;
 }
 
-void executeOne (char* command) {
-  char * line = strdup (command);
-  char ** args = parse_args (line);
-  //printf ("Running: %s...\n", command);
+char ** parse_argsSemi (char * line) {
+  char ** ans = malloc (256);
+  int i = 0;
+  char * now = line;
+  while (now) {
+    ans [i] = strsep (&now, ";");
+    i ++;
+  }
+  return ans;
+}
+
+void executeOne (char** args) {
   int id = fork(); //creates child process
   if (id == 0){ //child
     execvp(args[0], args);
-    exit(0);
   }
   else{ //parent
     wait(0); //waits for child to finish
   }
-}
-
-void execmultiple (char* command) {
-	char * line = strdup (command);
-	char ** commands = malloc(256);
-  int k = 0;
-  while (line){
-    commands[k] = strsep (&line, ";");
-    k++;
-  }
-
-	int i = 0;
-	while (commands[i] != NULL) {
-		executeOne (commands[i]);
-		i ++;
-	}
 }
 
 
@@ -53,9 +44,21 @@ int main(int argc, char *argv[]){
 
   while(status == 0){ //if true then it continues to run
     printf("%s", "something: ");
-    fgets(input, 100, stdin);
-    input[strlen(input)-1] = '\0';
-    execmultiple(input);
+    fgets(input, 100, stdin); //gets input
+    input[strlen(input)-1] = '\0'; //removes the new line at the end
+    char ** allCommands = malloc (256);
+    allCommands = parse_argsSemi(input);
+    int i;
+    for (i = 0; allCommands[i]; i++){
+      char * line = strdup (allCommands[i]);
+      char ** args = parse_args (line);
+      if (strcmp(args[0], "cd") == 0){
+        chdir(args[1]);
+      }
+      else{
+        executeOne(args);
+      }
+    }
   }
 
   return 0;
