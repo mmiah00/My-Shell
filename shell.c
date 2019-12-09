@@ -51,7 +51,7 @@ void redirect (char * line) {
     close (1);
     open (args[2], O_RDWR, 0666);
     if (fork () == 0) {
-      execl (args[0]);
+      execvp (args[0], args); 
     }
   }
   /*
