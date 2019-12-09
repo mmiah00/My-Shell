@@ -81,8 +81,8 @@ int main(int argc, char *argv[]){
       char * line = strdup (allCommands[i]);
       char ** args = parse_args (line);
       cd (args);
-      executeOne (args);
       redirect (args); 
+      executeOne (args); 
     }
   }
 
