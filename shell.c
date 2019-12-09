@@ -80,8 +80,8 @@ int main(int argc, char *argv[]){
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
       char ** args = parse_args (line);
-      if (strcmp (args[0], "x") == 0){
-        status = 1; 
+      if (strcmp (line, "x") == 0){
+        status = 1;
       }
       cd (args);
       redirect (args);
