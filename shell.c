@@ -15,6 +15,7 @@ char ** parse_args (char * line) {
     ans [i] = strsep (&now, " ");
     i ++;
   }
+
   return ans;
 }
 
@@ -23,7 +24,7 @@ char ** parse_argsSemi (char * line) {
   int i = 0;
   char * now = line;
   while (now) {
-    ans [i] = strsep (&now, ";");
+    ans [i] = strsep (&now, " ; ");
     i ++;
   }
   return ans;
@@ -51,7 +52,7 @@ void redirect (char * line) {
     close (1);
     open (args[2], O_RDWR, 0666);
     if (fork () == 0) {
-      execvp (args[0], args); 
+      execvp (args[0], args);
     }
   }
   /*
