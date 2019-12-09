@@ -39,11 +39,12 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char ** line) {
-  char * first = strsep (line, ">");
-  char * second = strsep (line, " ");
-  printf ("%s\n", first);
-  printf ("%s\n", second);
+void redirect (char ** args) {
+  close (1);
+  open (args[1], "w");
+  if (fork () == 0) {
+    execvp (ags[0], args);
+  }
   /*
   char ** args;
   args [0] = filefrom;
@@ -81,4 +82,3 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
-
