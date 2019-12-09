@@ -24,7 +24,7 @@ char ** parse_argsSemi (char * line) {
   int i = 0;
   char * now = line;
   while (now) {
-    ans [i] = strsep (&now, " ; ");
+    ans [i] = strsep (&now, ";");
     i ++;
   }
   return ans;
@@ -81,10 +81,10 @@ int main(int argc, char *argv[]){
     int i;
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
-      char ** args = parse_args (line);
-      if (strcmp (args[0], "x") == 0){
+      if (strcmp (line, "exit") == 0) {
         status = 1;
       }
+      char ** args = parse_args (line);
       cd (args);
       redirect (line);
       executeOne (args);
