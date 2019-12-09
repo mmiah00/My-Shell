@@ -29,6 +29,12 @@ char ** parse_argsSemi (char * line) {
   return ans;
 }
 
+void cd (char ** args) {
+  if (strcmp(args[0], "cd") == 0){
+    chdir(args[1]);
+  }
+}
+
 void executeOne (char** args) {
   int id = fork(); //creates child process
   if (id == 0){ //child
@@ -57,16 +63,7 @@ void redirect (char ** args) {
   */
 }
 
-int main () {
-  char ** a;
-  char ** b = parse_args ("ls > file");
-  a[0] = b [0];
-  a[1] = b [2];
-  redirect (a); 
-  return 0;
 
-}
-/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -81,15 +78,10 @@ int main(int argc, char *argv[]){
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
       char ** args = parse_args (line);
-      if (strcmp(args[0], "cd") == 0){
-        chdir(args[1]);
-      }
-      else{
-        executeOne(args);
-      }
+      cd (args);
+      executeOne (args);
     }
   }
 
   return 0;
 }
-*/
