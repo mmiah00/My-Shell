@@ -45,12 +45,13 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char ** args) {
-  if (strchr (args[0], '>')) {
+void redirect (char * line) {
+  if (strchr (line, '>')) {
+    char ** args = parse_args (line);
     close (1);
-    open (args[1], O_RDWR, 0666);
+    open (args[2], O_RDWR, 0666);
     if (fork () == 0) {
-      execvp (args[0], args);
+      execl (args[0]);
     }
   }
   /*
@@ -80,11 +81,11 @@ int main(int argc, char *argv[]){
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
       char ** args = parse_args (line);
-      if (strcmp (line, "x") == 0){
+      if (strcmp (args[0], "x") == 0){
         status = 1;
       }
       cd (args);
-      redirect (args);
+      redirect (line);
       executeOne (args);
     }
   }
