@@ -46,10 +46,12 @@ void executeOne (char** args) {
 }
 
 void redirect (char ** args) {
-  close (1);
-  open (args[1], O_RDWR, 0666);
-  if (fork () == 0) {
-    execvp (args[0], args);
+  if (strchr (args[0], '>')) {
+    close (1);
+    open (args[1], O_RDWR, 0666);
+    if (fork () == 0) {
+      execvp (args[0], args);
+    }
   }
   /*
   char ** args;
@@ -80,6 +82,7 @@ int main(int argc, char *argv[]){
       char ** args = parse_args (line);
       cd (args);
       executeOne (args);
+      redirect (args); 
     }
   }
 
