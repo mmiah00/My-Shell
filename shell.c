@@ -41,9 +41,9 @@ void executeOne (char** args) {
 
 void redirect (char ** args) {
   close (1);
-  open (args[1], "w");
+  open (args[1], O_RDWR, 0666);
   if (fork () == 0) {
-    execvp (ags[0], args);
+    execvp (args[0], args);
   }
   /*
   char ** args;
