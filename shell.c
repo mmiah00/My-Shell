@@ -81,13 +81,16 @@ int main(int argc, char *argv[]){
     int i;
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
-      if (strcmp (line, "exit") == 0) {
-        status = 1;
-      }
       char ** args = parse_args (line);
-      cd (args);
-      redirect (line);
-      executeOne (args);
+      if (strcmp(args[0], "cd") == 0){
+        chdir(args[1]);
+      }
+      else if (strcmp(args[0], "exit") == 0){
+        exit(0);
+      }
+      else{
+        executeOne(args);
+      }
     }
   }
 
