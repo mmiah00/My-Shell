@@ -39,7 +39,12 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char * filefrom, char * fileto) {
+void redirect (char * line) {
+  char * first = strsep (line, ">");
+  char * second = strsep (line, " ");
+  printf ("%s\n", first);
+  printf ("%s\n", second);
+  /*
   char ** args;
   args [0] = filefrom;
   args [1] = fileto;
@@ -48,8 +53,14 @@ void redirect (char * filefrom, char * fileto) {
   int backup = dup (1); //duplicating stdout
   dup2 (f, 1);
   close (f);
+  */
 }
 
+int main () {
+  redirect("ls > file");
+  return 0; 
+}
+/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -75,3 +86,4 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
+*/
