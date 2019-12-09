@@ -56,11 +56,6 @@ void redirect (char ** line) {
   */
 }
 
-int main () {
-  redirect("ls > file");
-  return 0;
-}
-/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -86,4 +81,4 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
-*/
+
