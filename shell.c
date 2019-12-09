@@ -57,6 +57,16 @@ void redirect (char ** args) {
   */
 }
 
+int main () {
+  char ** a;
+  char ** b = parse_args ("ls > file");
+  a[0] = b [0];
+  a[1] = b [2];
+  redirect (a); 
+  return 0;
+
+}
+/*
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
@@ -82,3 +92,4 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
+*/
