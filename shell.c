@@ -39,7 +39,7 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char * line) {
+void redirect (char ** line) {
   char * first = strsep (line, ">");
   char * second = strsep (line, " ");
   printf ("%s\n", first);
@@ -58,7 +58,7 @@ void redirect (char * line) {
 
 int main () {
   redirect("ls > file");
-  return 0; 
+  return 0;
 }
 /*
 int main(int argc, char *argv[]){
