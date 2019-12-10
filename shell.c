@@ -30,11 +30,6 @@ char ** parse_argsSemi (char * line) {
   return ans;
 }
 
-void cd (char ** args) {
-  if (strcmp(args[0], "cd") == 0){
-    chdir(args[1]);
-  }
-}
 
 void executeOne (char** args) {
   int id = fork(); //creates child process
@@ -46,14 +41,33 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char * line) {
-  if (strchr (line, '>')) {
-    char ** args = parse_args (line);
-    close (1);
-    open (args[2], O_RDWR, 0666);
-    if (fork () == 0) {
-      execvp (args[0], args);
+int findRedirect(char * line){
+  int i;
+  for (i = 0; i < strlen(line); i++){
+    printf("%s<-",line+i);
+    if (strcmp(&line[i],">") == 0){
+      return 1;
     }
+  }
+  return 0;
+}
+
+void redirect (char * line) {
+  char ** command = malloc (256);
+  command[0] = strsep(&line,">");
+  printf("%s",command[0]);
+  char * fileName = strsep(&line,">");
+  //printf("filename is %s command is %s", fileName, command[0]);
+  int file = open(fileName, O_RDWR | O_CREAT,0666);
+  dup2(file,1);
+  close(file);
+  int id = fork();
+  if (id == 0){
+    char * temp = command[0];
+    execvp(&temp[0],parse_args(command[0]));
+  }
+  else{
+    wait(0);
   }
   /*
   char ** args;
@@ -71,9 +85,9 @@ void redirect (char * line) {
 int main(int argc, char *argv[]){
   char input[100] = "";
   int status = 0; //0 is true
-
+  char * cwd= malloc(256 * sizeof(char));
   while(status == 0){ //if true then it continues to run
-    printf("%s", "something: ");
+    printf("%s$ ", getcwd(cwd, 256));
     fgets(input, 100, stdin); //gets input
     input[strlen(input)-1] = '\0'; //removes the new line at the end
     char ** allCommands = malloc (256);
@@ -81,9 +95,15 @@ int main(int argc, char *argv[]){
     int i;
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
+      //printf("%s<-",line);
       char ** args = parse_args (line);
+      //printf("->%s<-", line);
+
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
+      }
+      else if (strchr(line,'>') != NULL){
+        redirect(line);
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
@@ -91,6 +111,7 @@ int main(int argc, char *argv[]){
       else{
         executeOne(args);
       }
+
     }
   }
 
