@@ -52,17 +52,6 @@ void executeOne (char** args) {
   }
 }
 
-int findRedirect(char * line){
-  int i;
-  for (i = 0; i < strlen(line); i++){
-    printf("%s<-",line+i);
-    if (strcmp(&line[i],">") == 0){
-      return 1;
-    }
-  }
-  return 0;
-}
-
 void redirect (char * line) {
   char ** command = malloc (256);
   command[0] = strsep(&line,">");
@@ -86,7 +75,6 @@ void redirect (char * line) {
   close (f);
   */
 }
-
 
 int main(int argc, char *argv[]){
   char input[100] = "";
