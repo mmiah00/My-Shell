@@ -69,7 +69,7 @@ void redirect (char * line) {
   printf("%s",command[0]);
   char * fileName = strsep(&line,">");
   //printf("filename is %s command is %s", fileName, command[0]);
-  int file = open(fileName, O_RDWR | O_CREAT,0666);
+  int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
   close(file);
