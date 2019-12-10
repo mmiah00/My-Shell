@@ -24,8 +24,19 @@ char ** parse_argsSemi (char * line) {
   int i = 0;
   char * now = line;
   while (now) {
-    ans [i] = strsep (&now, ";");
+    char * currentCommand = strsep (&now, ";");
+    ans[i] = currentCommand;
     i ++;
+    int j;
+    int length = strlen(currentCommand);
+    if (currentCommand[length-1] == ' '){
+      currentCommand[length - 1] = 0;
+    }
+    if (currentCommand[0] == ' '){
+      for (j = 0; j < length; j++){
+        currentCommand[j] = currentCommand[j+1];
+      }
+    }
   }
   return ans;
 }
