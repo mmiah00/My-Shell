@@ -72,14 +72,7 @@ void redirect (char * line) {
   int file = open(fileName, O_RDWR | O_CREAT,0666);
   dup2(file,1);
   close(file);
-  int id = fork();
-  if (id == 0){
-    char * temp = command[0];
-    execvp(&temp[0],parse_args(command[0]));
-  }
-  else{
-    wait(0);
-  }
+  executeOne(parse_args(command[0]));
   /*
   char ** args;
   args [0] = filefrom;
