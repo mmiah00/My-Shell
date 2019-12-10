@@ -70,9 +70,11 @@ void redirect (char * line) {
   char * fileName = strsep(&line,">");
   //printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_RDWR | O_CREAT,0666);
+  int backup = dup (1);
   dup2(file,1);
   close(file);
   executeOne(parse_args(command[0]));
+  dup2 (backup, 1);
   /*
   char ** args;
   args [0] = filefrom;
