@@ -52,7 +52,7 @@ void executeOne (char** args) {
   }
 }
 
-void redirect (char * line) {
+void redirectgreater (char * line) {
   char ** command = malloc (256);
   command[0] = strsep(&line,">");
   printf("%s",command[0]);
@@ -75,6 +75,31 @@ void redirect (char * line) {
   close (f);
   */
 }
+
+void redirectless (char * line) {
+  char ** command = malloc (256);
+  command[0] = strsep(&line,"<");
+  printf("%s",command[0]);
+  char * fileName = strsep(&line,"<");
+  //printf("filename is %s command is %s", fileName, command[0]);
+  int file = open(fileName, O_WRONLY | O_CREAT,0666);
+  int backup = dup (0);
+  dup2(file,0);
+  close(file);
+  executeOne(parse_args(command[0]));
+  dup2 (backup, 0);
+  /*
+  char ** args;
+  args [0] = filefrom;
+  args [1] = fileto;
+  executeOne (args);
+  int f = open (fileto, O_RDWR | O_CREAT, 0666);
+  int backup = dup (1); //duplicating stdout
+  dup2 (f, 1);
+  close (f);
+  */
+}
+
 
 int main(int argc, char *argv[]){
   char input[100] = "";
