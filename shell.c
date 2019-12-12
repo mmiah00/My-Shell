@@ -215,16 +215,17 @@ int main(int argc, char *argv[]){
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
       }
-      else if (strchr(line,'>') != NULL){
+      else if (strchr(allCommands[i],'>') != NULL){
+        printf("detected");
         redirectgreater(line);
       }
-      else if (strchr (line, '<') != NULL) {
+      else if (strchr (allCommands[i], '<') != NULL) {
 	      redirectless (line);
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
       }
-      else if (strchr (line, '|') != NULL){
+      else if (strchr (allCommands[i], '|') != NULL){
         mypipe(line);
       }
       else{
