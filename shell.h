@@ -1,10 +1,8 @@
 char ** parse_args (char * line);
 char ** parse_argsSemi (char * line);
-
-
 void executeOne (char** args);
-
-void redirect (char * line);
+void redirectless (char * line);
+void redirectgreater (char * line);
 
 
 //void redirect (char * line);

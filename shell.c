@@ -90,6 +90,19 @@ void redirectless (char * line) {
   dup2 (backup, 0);
 }
 
+void mypipe (char ** args) {
+  pipe (args);
+  if (fork () == 0){
+    dup2 (args[0], 0);
+    close (args[1]);
+    execvp (args[0], args);
+  }
+  else {
+    dup2 (args[1], 1);
+    close (args[0]);
+    execvp (args[1], args);
+  }
+}
 
 int main(int argc, char *argv[]){
   char input[100] = "";
@@ -114,8 +127,8 @@ int main(int argc, char *argv[]){
       else if (strchr(line,'>') != NULL){
         redirectgreater(line);
       }
-      else if (strchr (line, '<') != NULL) { 
-	redirectless (line); 
+      else if (strchr (line, '<') != NULL) {
+	       redirectless (line);
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
