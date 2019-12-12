@@ -81,6 +81,7 @@ void redirectgreater (char * line) {
   // char * fileName = strsep(&line,">");
 
   char ** command = parse_argsSpecial (line, ">");
+  char * fileName = command[1];
   //printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
@@ -107,6 +108,7 @@ void redirectless (char * line) {
   // char * fileName = strsep(&line,"<");
 
   char ** command = parse_argsSpecial (line, "<");
+  char * fileName = command[1];
 
   //printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
@@ -122,7 +124,7 @@ void mypipe (char * line) {
   // command[0] = strsep(&line,"|"); //string left of |
   // command[1] = strsep(&line,"|"); //string right of |
 
-  char ** command = parse_argsSpecial (line, "|"); 
+  char ** command = parse_argsSpecial (line, "|");
 
   int pd[2];
   int pid;
