@@ -41,6 +41,28 @@ char ** parse_argsSemi (char * line) {
   return ans;
 }
 
+char ** parse_argsSpecial (char * line, char * character) {
+  char ** ans = malloc (256);
+  int i = 0;
+  char * now = line;
+  while (now) {
+    char * currentCommand = strsep (&now, character);
+    ans[i] = currentCommand;
+    i ++;
+    int j;
+    int length = strlen(currentCommand);
+    if (currentCommand[length-1] == ' '){//removes trailing space
+      currentCommand[length - 1] = 0;
+    }
+    if (currentCommand[0] == ' '){//removes beginning space by shifting everything over 1
+      for (j = 0; j < length; j++){
+        currentCommand[j] = currentCommand[j+1];
+      }
+    }
+  }
+  return ans;
+}
+
 
 void executeOne (char** args) {
   int id = fork(); //creates child process
@@ -53,10 +75,12 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
-  char ** command = malloc (256);
-  command[0] = strsep(&line,">");
-  printf("%s",command[0]);
-  char * fileName = strsep(&line,">");
+  // char ** command = malloc (256);
+  // command[0] = strsep(&line,">");
+  // printf("%s",command[0]);
+  // char * fileName = strsep(&line,">");
+
+  char ** command = parse_argsSpecial (line, ">");
   //printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
@@ -77,10 +101,13 @@ void redirectgreater (char * line) {
 }
 
 void redirectless (char * line) {
-  char ** command = malloc (256);
-  command[0] = strsep(&line,"<");
-  printf("%s",command[0]);
-  char * fileName = strsep(&line,"<");
+  // char ** command = malloc (256);
+  // command[0] = strsep(&line,"<");
+  // printf("%s",command[0]);
+  // char * fileName = strsep(&line,"<");
+
+  char ** command = parse_argsSpecial (line, "<");
+
   //printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (0);
@@ -91,9 +118,12 @@ void redirectless (char * line) {
 }
 
 void mypipe (char * line) {
-  char ** command = malloc (256);
-  command[0] = strsep(&line,"|"); //string left of |
-  command[1] = strsep(&line,"|"); //string right of |
+  // char ** command = malloc (256);
+  // command[0] = strsep(&line,"|"); //string left of |
+  // command[1] = strsep(&line,"|"); //string right of |
+
+  char ** command = parse_argsSpecial (line, "|"); 
+
   int pd[2];
   int pid;
   int backup = dup(0);
