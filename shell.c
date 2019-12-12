@@ -90,16 +90,24 @@ void redirectless (char * line) {
   dup2 (backup, 0);
 }
 
-void mypipe (char ** args) {
-  pipe (args);
-  if (fork () == 0){
-    dup2 (args[0], 0);
-    close (args[1]);
+void mypipe (char * line) {
+  char ** command = malloc (256);
+  command[0] = strsep(&line,"|"); //string left of |
+  command[1] = strsep(&line,"|"); //string right of |
+  int pd[2];
+  int pid;
+  pipe(pd);
+  pid = fork();
+  if (pid == 0){
+    dup2 (pd[0], 0);
+    close (pd[1]);
+    char ** args = parse_args (command[0]);
     execvp (args[0], args);
   }
   else {
-    dup2 (args[1], 1);
-    close (args[0]);
+    dup2 (pd[1], 1);
+    close (pd[0]);
+    char ** args = parse_args (command[1]);
     execvp (args[1], args);
   }
 }
@@ -132,6 +140,10 @@ int main(int argc, char *argv[]){
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
+      }
+      else if (strchr (line, '|') != NULL){
+        printf("YES<==========================");
+        mypipe(line);
       }
       else{
         executeOne(args);
