@@ -115,6 +115,10 @@ void mypipe (char * line) {
     close(pd[1]);
     char ** args = parse_args (command[1]);
     execvp (args[0], args);
+
+    dup2(backup,0);
+    close(backup);
+    close(pd[0]);
     // backup = dup(pd[1]);
     // dup2 (pd[1], 1);
     // close (pd[0]);
@@ -140,6 +144,10 @@ void mypipe (char * line) {
     close(pd[0]);
     char ** args = parse_args (command[0]);
     execvp (args[0], args);
+
+    dup2(backup2,1);
+    close(backup2);
+    close(pd[1]);
     // wait(0);
     // backup = dup(pd[1]);
     // dup2 (pd[0], 0);
