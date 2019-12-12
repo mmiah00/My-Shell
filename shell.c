@@ -96,20 +96,61 @@ void mypipe (char * line) {
   command[1] = strsep(&line,"|"); //string right of |
   int pd[2];
   int pid;
+  int backup = dup(0);
+  int backup2 = dup(1);
   pipe(pd);
   pid = fork();
-  if (pid == 0){
-    dup2 (pd[0], 0);
-    close (pd[1]);
+  if (pid == 0){//child
+      //close(pd[0]);
+    //backup1 = dup(1); //
+      //dup2(pd[1],1);
+      //char ** args = parse_args (command[0]);
+      //execvp (args[0], args);
+    //dup2(backup1,1);
+    //close(pd[1]);
+    //close(backup1);
+    //exit(0);
+    backup = dup(0);
+    dup2(pd[0],0);
+    close(pd[1]);
+    char ** args = parse_args (command[1]);
+    execvp (args[0], args);
+    // backup = dup(pd[1]);
+    // dup2 (pd[1], 1);
+    // close (pd[0]);
+    // char ** args = parse_args (command[0]);
+    // execvp (args[0], args);
+    // dup2(backup,1);
+  }
+  else {//parent
+    //close(pd[1]);
+      //wait(0);
+    //backup = dup(0);
+      //dup2(pd[0],0);
+      //close(pd[1]);
+      //char ** args = parse_args (command[1]);
+      //execvp (args[0], args);
+      //dup2(backup,0);
+      //close(backup);
+      //close(backup1);
+      //close(pd[1]);
+      //close(pd[0]);
+    backup2 = dup(1);
+    dup2(pd[1],1);
+    close(pd[0]);
     char ** args = parse_args (command[0]);
     execvp (args[0], args);
+    // wait(0);
+    // backup = dup(pd[1]);
+    // dup2 (pd[0], 0);
+    // close (pd[1]);
+    // char ** args = parse_args (command[1]);
+    // execvp (args[0], args);
+    // dup2(backup,1);
+
   }
-  else {
-    dup2 (pd[1], 1);
-    close (pd[0]);
-    char ** args = parse_args (command[1]);
-    execvp (args[1], args);
-  }
+  //dup2(backup,0);
+  //dup2(backup2,1);
 }
 
 int main(int argc, char *argv[]){
@@ -127,7 +168,7 @@ int main(int argc, char *argv[]){
       char * line = strdup (allCommands[i]);
       //printf("%s<-",line);
       char ** args = parse_args (line);
-      //printf("->%s<-", line);
+      printf("->%s<-", line);
 
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
@@ -136,13 +177,12 @@ int main(int argc, char *argv[]){
         redirectgreater(line);
       }
       else if (strchr (line, '<') != NULL) {
-	       redirectless (line);
+	      redirectless (line);
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
       }
       else if (strchr (line, '|') != NULL){
-        printf("YES<==========================");
         mypipe(line);
       }
       else{
