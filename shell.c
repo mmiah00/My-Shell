@@ -88,16 +88,6 @@ void redirectless (char * line) {
   close(file);
   executeOne(parse_args(command[0]));
   dup2 (backup, 0);
-  /*
-  char ** args;
-  args [0] = filefrom;
-  args [1] = fileto;
-  executeOne (args);
-  int f = open (fileto, O_RDWR | O_CREAT, 0666);
-  int backup = dup (1); //duplicating stdout
-  dup2 (f, 1);
-  close (f);
-  */
 }
 
 
