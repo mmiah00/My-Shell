@@ -112,7 +112,10 @@ int main(int argc, char *argv[]){
         chdir(args[1]);
       }
       else if (strchr(line,'>') != NULL){
-        redirect(line);
+        redirectgreater(line);
+      }
+      else if (strchr (line, '<') != NULL) { 
+	redirectless (line); 
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
