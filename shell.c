@@ -41,6 +41,18 @@ char ** parse_argsSemi (char * line) {
   return ans;
 }
 
+/*
+char ** parse_argsSemi (char * line) {
+  char ** ans = malloc (256);
+  char * now = line;
+  ans [0] = strsep (&now," ");
+  //strsep (&now, ";");
+  ans [1] = strsep (&now, ";");
+  printf ("%s\n%s\n", ans [0], ans [1]);
+  return ans;
+}
+*/
+
 char ** parse_argsSpecial (char * line, char * character) {
   char ** ans = malloc (256);
   int i = 0;
@@ -200,7 +212,7 @@ int main(int argc, char *argv[]){
   int status = 0; //0 is true
   char * cwd= malloc(256 * sizeof(char));
   while(status == 0){ //if true then it continues to run
-    printf("%s$ ", getcwd(cwd, 256));
+    printf("\n%s$ ", getcwd(cwd, 256));
     fgets(input, 100, stdin); //gets input
     input[strlen(input)-1] = '\0'; //removes the new line at the end
     char ** allCommands = malloc (256);
@@ -210,7 +222,7 @@ int main(int argc, char *argv[]){
       char * line = strdup (allCommands[i]);
       //printf("%s<-",line);
       char ** args = parse_args (line);
-      printf("->%s<-", line);
+      //printf("->%s<-", line);
 
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
