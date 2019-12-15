@@ -235,7 +235,7 @@ int main(int argc, char *argv[]){
                 printf("\n:(\n");
               }
       else if (strchr(allCommands[i],'>') != NULL && strchr(allCommands[i],'<') != NULL &&
-              strchr(allCommands[i],'>') > strchr(allCommands[i],'<')){ //something > something < something
+              strchr(allCommands[i],'>') > strchr(allCommands[i],'<')){ //something < something > something
                 printf("\n:(\n");
               }
       else if (strchr(allCommands[i],'>') != NULL){
