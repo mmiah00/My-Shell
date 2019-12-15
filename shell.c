@@ -93,13 +93,14 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
+  fflush(stdout);
   //printf("LINE IS ->%s<-\n", line);
   //char ** command = malloc (256);
   char * command = strsep(&line,">");
   //printf("%s",command[0]);
   char * fileName = strsep(&line,">");
  //char ** command = parse_args (line);
-
+  fflush(stdout);
   /*
   char * fileName = command[1];
   while (*fileName == ' ') {
@@ -118,6 +119,7 @@ void redirectgreater (char * line) {
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
+  fflush(stdout);
   executeOne(parse_args(command));
   dup2 (backup, 1);
   close(file);
@@ -134,15 +136,10 @@ void redirectgreater (char * line) {
 }
 
 void redirectless (char * line) {
-  // char ** command = malloc (256);
+  fflush(stdout);
   char * command = strsep(&line,"<");
-  // printf("%s",command[0]);
   char * fileName = strsep(&line,"<");
 
-  //char ** command = parse_argsSpecial (line, "<");
-  //char * fileName = command[1];
-
-  //printf("filename is %s command is %s", fileName, command[0]);
   while (*fileName == ' ') {
     fileName++;
   }
@@ -152,7 +149,8 @@ void redirectless (char * line) {
       command[i] = 0;
     }
   }
-  int file = open(fileName, O_RDONLY | O_CREAT,0666);
+
+  int file = open(fileName, O_RDONLY,0666);
   int backup = dup (0);
   dup2(file,0);
   executeOne(parse_args(command));
