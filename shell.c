@@ -152,7 +152,7 @@ void redirectless (char * line) {
       command[i] = 0;
     }
   }
-  int file = open(fileName, O_WRONLY | O_CREAT,0666);
+  int file = open(fileName, O_RDONLY | O_CREAT,0666);
   int backup = dup (0);
   dup2(file,0);
   executeOne(parse_args(command));
