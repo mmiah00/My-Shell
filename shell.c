@@ -148,12 +148,12 @@ void redirectless (char * line) {
     }
   }
 
-  int file = open(fileName, O_RDONLY,0);
+  int file = open(fileName, O_RDONLY,0644);
   int backup = dup (0);
   dup2(file,0);
   close(file);
   executeOne(parse_args(command));
-  dup2 (backup, 0);
+  //dup2 (backup, 0);
 }
 
 void mypipe (char * line) {
