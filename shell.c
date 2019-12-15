@@ -251,10 +251,12 @@ int main(int argc, char *argv[]){
     input[strlen(input)-1] = '\0'; //removes the new line at the end
     char ** allCommands = malloc (256);
     allCommands = parse_argsSemi(input);
+    //printf("allCommands[0] is ->%s<-\n",allCommands[0]);
+    //printf("allCommands[1] is ->%s<-\n", allCommands[1]);
     int i;
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
-      //printf("%s<-",line);
+      //printf("line is ->%s<-",line);
       char ** args = parse_args (line);
       //printf("->%s<-", line);
 
@@ -291,6 +293,7 @@ int main(int argc, char *argv[]){
         mypipe(allCommands[i]);
       }
       else{
+        printf("\n");
         executeOne(args);
       }
 
