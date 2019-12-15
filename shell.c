@@ -10,9 +10,12 @@
 char ** parse_args (char * line) {
   char ** ans = malloc (256);
   int i = 0;
-  char * now = line;
-  while (now) {
-    ans [i] = strsep (&now, " ");
+  //char * now = line;
+  char * temp;
+  while (temp) {
+    //ans [i] = strsep (&now, " ");
+    temp = strsep(&line, " ");
+    ans[i] = temp;
     i ++;
   }
 
@@ -87,35 +90,33 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
-  char ** command = malloc (256);
-  command[0] = strsep(&line,">");
-  printf("%s",command[0]);
+  printf("LINE IS ->%s<-\n", line);
+  //char ** command = malloc (256);
+  char * command = strsep(&line,">");
+  //printf("%s",command[0]);
   char * fileName = strsep(&line,">");
-  while (*fileName == ' ') {
-        fileName++;
-  }
  //char ** command = parse_args (line);
-  char * list = strdup(command[0]);
-  int i = strlen(list)-1;
-  for (; i > 1; i--){
-    if (list[i] == ' ' || list[i] == '\n' ){
-      list[i] = 0;
-    }
-  else{
-    break;
-  }
-  }
+
   /*
   char * fileName = command[1];
   while (*fileName == ' ') {
   	fileName++;
   }*/
-//printf("filename is %s command is %s", fileName, command[0]);
+  while (*fileName == ' ') {
+  	fileName++;
+  }
+  int i = strlen(command)-1;
+  for (; i > 1; i--){
+    if (command[i] == ' ' || command[i] == '\n' ){
+      command[i] = 0;
+    }
+  }
+  printf("filename is %s command is %s", fileName, command);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
   close(file);
-  executeOne(parse_args(command[0]));
+  executeOne(parse_args(command));
   dup2 (backup, 1);
   /*
   char ** args;
@@ -244,8 +245,25 @@ int main(int argc, char *argv[]){
         chdir(args[1]);
       }
       else if (strchr(allCommands[i],'>') != NULL){
-        printf("detected");
-        redirectgreater(line);
+        //this code removes spaces at the beginning and end but idk what to do with it
+        //redirect breaks for some reason
+        /**
+        printf("%s",line);
+        char * command = strsep(&allCommands[i],">");
+        char * fileName = strsep(&allCommands[i],">");
+        while (fileName[0] == ' ') {
+          fileName++;
+        }
+        int i = strlen(command)-1;
+        for (; i > 1; i--){
+          if (command[i] == ' ' || command[i] == '\n' ){
+            command[i] = 0;
+          }
+        }
+        printf("Your command is ->%s<- and your file is ->%s<-", command,fileName);
+        **/
+        printf("DETECTED\n");
+        redirectgreater(allCommands[i]);
       }
       else if (strchr (allCommands[i], '<') != NULL) {
 	      redirectless (line);
