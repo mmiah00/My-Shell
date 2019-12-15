@@ -87,14 +87,30 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
-  // char ** command = malloc (256);
-  // command[0] = strsep(&line,">");
-  // printf("%s",command[0]);
-  // char * fileName = strsep(&line,">");
-
-  char ** command = parse_argsSpecial (line, ">");
+  char ** command = malloc (256);
+  command[0] = strsep(&line,">");
+  printf("%s",command[0]);
+  char * fileName = strsep(&line,">");
+  while (*fileName == ' ') {
+        fileName++;
+  }
+ //char ** command = parse_args (line);
+  char * list = strdup(command[0]);
+  int i = strlen(list)-1;
+  for (; i > 1; i--){
+    if (list[i] == ' ' || list[i] == '\n' ){
+      list[i] = 0;
+    }
+  else{
+    break;
+  }
+  }
+  /*
   char * fileName = command[1];
-  //printf("filename is %s command is %s", fileName, command[0]);
+  while (*fileName == ' ') {
+  	fileName++;
+  }*/
+//printf("filename is %s command is %s", fileName, command[0]);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
