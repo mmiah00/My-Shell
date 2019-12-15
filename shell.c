@@ -230,6 +230,14 @@ int main(int argc, char *argv[]){
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
       }
+      else if (strchr(allCommands[i],'>') != NULL && strchr(allCommands[i],'<') != NULL &&
+              strchr(allCommands[i],'>') < strchr(allCommands[i],'<')){ //something > something < something
+                printf("\n:(\n");
+              }
+      else if (strchr(allCommands[i],'>') != NULL && strchr(allCommands[i],'<') != NULL &&
+              strchr(allCommands[i],'>') > strchr(allCommands[i],'<')){ //something > something < something
+                printf("\n:(\n");
+              }
       else if (strchr(allCommands[i],'>') != NULL){
         //this code removes spaces at the beginning and end but idk what to do with it
         //redirect breaks for some reason
