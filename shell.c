@@ -90,7 +90,7 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
-  printf("LINE IS ->%s<-\n", line);
+  //printf("LINE IS ->%s<-\n", line);
   //char ** command = malloc (256);
   char * command = strsep(&line,">");
   //printf("%s",command[0]);
@@ -111,7 +111,7 @@ void redirectgreater (char * line) {
       command[i] = 0;
     }
   }
-  printf("filename is %s command is %s", fileName, command);
+  //printf("filename is %s command is %s", fileName, command);
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
@@ -132,28 +132,45 @@ void redirectgreater (char * line) {
 
 void redirectless (char * line) {
   // char ** command = malloc (256);
-  // command[0] = strsep(&line,"<");
+  char * command = strsep(&line,"<");
   // printf("%s",command[0]);
-  // char * fileName = strsep(&line,"<");
+  char * fileName = strsep(&line,"<");
 
-  char ** command = parse_argsSpecial (line, "<");
-  char * fileName = command[1];
+  //char ** command = parse_argsSpecial (line, "<");
+  //char * fileName = command[1];
 
   //printf("filename is %s command is %s", fileName, command[0]);
+  while (*fileName == ' ') {
+    fileName++;
+  }
+  int i = strlen(command)-1;
+  for (; i > 1; i--){
+    if (command[i] == ' ' || command[i] == '\n' ){
+      command[i] = 0;
+    }
+  }
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (0);
   dup2(file,0);
   close(file);
-  executeOne(parse_args(command[0]));
+  executeOne(parse_args(command));
   dup2 (backup, 0);
 }
 
 void mypipe (char * line) {
-  // char ** command = malloc (256);
-  // command[0] = strsep(&line,"|"); //string left of |
-  // command[1] = strsep(&line,"|"); //string right of |
-
-  char ** command = parse_argsSpecial (line, "|");
+  //char ** command = malloc (256);
+  char * left = strsep(&line,"|"); //string left of |
+  char * right = strsep(&line,"|"); //string right of |
+  while (*right == ' ') {
+    right++;
+  }
+  int i = strlen(left)-1;
+  for (; i > 1; i--){
+    if (left[i] == ' ' || left[i] == '\n' ){
+      left[i] = 0;
+    }
+  }
+  //char ** command = parse_argsSpecial (line, "|");
 
   int pd[2];
   int pid;
@@ -174,7 +191,7 @@ void mypipe (char * line) {
     backup = dup(0);
     dup2(pd[0],0);
     close(pd[1]);
-    char ** args = parse_args (command[1]);
+    char ** args = parse_args (right);
     executeOne (args); //execvp (args[0], args);
 
     dup2(backup,0);
@@ -204,7 +221,7 @@ void mypipe (char * line) {
     backup2 = dup(1);
     dup2(pd[1],1);
     close(pd[0]);
-    char ** args = parse_args (command[0]);
+    char ** args = parse_args (left);
     executeOne (args); //execvp (args[0], args);
 
     dup2(backup2,1);
@@ -262,17 +279,16 @@ int main(int argc, char *argv[]){
         }
         printf("Your command is ->%s<- and your file is ->%s<-", command,fileName);
         **/
-        printf("DETECTED\n");
         redirectgreater(allCommands[i]);
       }
       else if (strchr (allCommands[i], '<') != NULL) {
-	      redirectless (line);
+	      redirectless (allCommands[i]);
       }
       else if (strcmp(args[0], "exit") == 0){
         exit(0);
       }
       else if (strchr (allCommands[i], '|') != NULL){
-        mypipe(line);
+        mypipe(allCommands[i]);
       }
       else{
         executeOne(args);
