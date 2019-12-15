@@ -23,11 +23,6 @@ int main(int argc, char *argv[]){
       if (strcmp(args[0], "cd") == 0){
         chdir(args[1]);
       }
-      else if (strchr (line, ';')) {
-        char ** a = parse_argsSemi (line);
-        executeOne (a[0]);
-        executeOne (a[1]);
-      }
       else if (strchr(allCommands[i],'>') != NULL){
         redirectgreater(allCommands[i]);
       }
