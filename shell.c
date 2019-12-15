@@ -118,9 +118,9 @@ void redirectgreater (char * line) {
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
-  close(file);
   executeOne(parse_args(command));
   dup2 (backup, 1);
+  close(file);
   /*
   char ** args;
   args [0] = filefrom;
@@ -155,9 +155,9 @@ void redirectless (char * line) {
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (0);
   dup2(file,0);
-  close(file);
   executeOne(parse_args(command));
   dup2 (backup, 0);
+  close(file);
 }
 
 void mypipe (char * line) {
