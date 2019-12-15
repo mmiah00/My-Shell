@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
     fgets(input, 100, stdin); //gets input
     input[strlen(input)-1] = '\0'; //removes the new line at the end
     char ** allCommands = malloc (256);
-    //allCommands = parse_argsSemi(input);
+    allCommands = parse_argsSemi(input);
     int i;
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
