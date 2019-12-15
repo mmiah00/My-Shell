@@ -153,7 +153,7 @@ void redirectless (char * line) {
   dup2(file,0);
   close(file);
   executeOne(parse_args(command));
-  //dup2 (backup, 0);
+  dup2 (backup, 0);
 }
 
 void mypipe (char * line) {
