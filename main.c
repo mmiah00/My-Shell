@@ -34,25 +34,10 @@ int main(int argc, char *argv[]){
       else if (strchr(allCommands[i],'>') != NULL && strchr(allCommands[i],'<') != NULL &&
               strchr(allCommands[i],'>') > strchr(allCommands[i],'<')){ //something < something > something
                 printf("\n:(\n");
+                double1(allCommands[i]);
               }
       else if (strchr(allCommands[i],'>') != NULL){
-        //this code removes spaces at the beginning and end but idk what to do with it
-        //redirect breaks for some reason
-        /**
-        printf("%s",line);
-        char * command = strsep(&allCommands[i],">");
-        char * fileName = strsep(&allCommands[i],">");
-        while (fileName[0] == ' ') {
-          fileName++;
-        }
-        int i = strlen(command)-1;
-        for (; i > 1; i--){
-          if (command[i] == ' ' || command[i] == '\n' ){
-            command[i] = 0;
-          }
-        }
-        printf("Your command is ->%s<- and your file is ->%s<-", command,fileName);
-        **/
+
         redirectgreater(allCommands[i]);
       }
       else if (strchr (allCommands[i], '<') != NULL) {
