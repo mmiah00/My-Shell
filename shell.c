@@ -207,6 +207,26 @@ void mypipe (char * line) {
   //dup2(backup,0);
   //dup2(backup2,1);
 }
+void double1(char * line){//something < something > something
+  char * command = strsep(&line,">");
+  char * fileName = strsep(&line,">");
+  while (*fileName == ' ') {
+  	fileName++;
+  }
+  int i = strlen(command)-1;
+  for (; i > 1; i--){
+    if (command[i] == ' ' || command[i] == '\n' ){
+      command[i] = 0;
+    }
+  }
+  int file = open(fileName, O_WRONLY | O_CREAT,0666);
+  int backup = dup (1);
+  dup2(file,1);
+  redirectless(command);
+  //executeOne(parse_args(command));
+  dup2 (backup, 1);
+  close(file);
+}
 
 int main(int argc, char *argv[]){
   char input[100] = "";
@@ -237,6 +257,7 @@ int main(int argc, char *argv[]){
       else if (strchr(allCommands[i],'>') != NULL && strchr(allCommands[i],'<') != NULL &&
               strchr(allCommands[i],'>') > strchr(allCommands[i],'<')){ //something < something > something
                 printf("\n:(\n");
+                double1(allCommands[i]);
               }
       else if (strchr(allCommands[i],'>') != NULL){
         //this code removes spaces at the beginning and end but idk what to do with it
