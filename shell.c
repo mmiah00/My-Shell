@@ -82,7 +82,10 @@ char ** parse_argsSpecial (char * line, char * character) {
 void executeOne (char** args) {
   int id = fork(); //creates child process
   if (id == 0){ //child
-    execvp(args[0], args);
+    int num = execvp(args[0], args);
+    if (num == -1){
+      printf("%s\n", strerror(errno));
+    }
   }
   else{ //parent
     wait(0); //waits for child to finish
