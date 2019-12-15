@@ -181,64 +181,28 @@ void mypipe (char * line) {
   int backup2 = dup(1);
   pipe(pd);
   pid = fork();
-  if (pid == 0){//child
-      //close(pd[0]);
-    //backup1 = dup(1); //
-      //dup2(pd[1],1);
-      //char ** args = parse_args (command[0]);
-      //execvp (args[0], args);
-    //dup2(backup1,1);
-    //close(pd[1]);
-    //close(backup1);
-    //exit(0);
+  if (pid){
+    close(pd[1]);
+    //wait(0);
     backup = dup(0);
     dup2(pd[0],0);
-    close(pd[1]);
     char ** args = parse_args (right);
     executeOne (args); //execvp (args[0], args);
 
     dup2(backup,0);
     close(backup);
     close(pd[0]);
-
-    // backup = dup(pd[1]);
-    // dup2 (pd[1], 1);
-    // close (pd[0]);
-    // char ** args = parse_args (command[0]);
-    // execvp (args[0], args);
-    // dup2(backup,1);
   }
-  else {//parent
-    //close(pd[1]);
-      //wait(0);
-    //backup = dup(0);
-      //dup2(pd[0],0);
-      //close(pd[1]);
-      //char ** args = parse_args (command[1]);
-      //execvp (args[0], args);
-      //dup2(backup,0);
-      //close(backup);
-      //close(backup1);
-      //close(pd[1]);
-      //close(pd[0]);
+  else {
+    close(pd[0]);
     backup2 = dup(1);
     dup2(pd[1],1);
-    close(pd[0]);
     char ** args = parse_args (left);
     executeOne (args); //execvp (args[0], args);
-
     dup2(backup2,1);
     close(backup2);
     close(pd[1]);
-
-    // wait(0);
-    // backup = dup(pd[1]);
-    // dup2 (pd[0], 0);
-    // close (pd[1]);
-    // char ** args = parse_args (command[1]);
-    // execvp (args[0], args);
-    // dup2(backup,1);
-
+    exit(0);
   }
   //dup2(backup,0);
   //dup2(backup2,1);
