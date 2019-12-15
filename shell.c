@@ -100,7 +100,6 @@ void redirectgreater (char * line) {
   //printf("%s",command[0]);
   char * fileName = strsep(&line,">");
  //char ** command = parse_args (line);
-  fflush(stdout);
   /*
   char * fileName = command[1];
   while (*fileName == ' ') {
@@ -119,7 +118,6 @@ void redirectgreater (char * line) {
   int file = open(fileName, O_WRONLY | O_CREAT,0666);
   int backup = dup (1);
   dup2(file,1);
-  fflush(stdout);
   executeOne(parse_args(command));
   dup2 (backup, 1);
   close(file);
