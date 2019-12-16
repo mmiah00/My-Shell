@@ -100,7 +100,8 @@ void redirectgreater (char * line) {
   }
   else{
     char * command = strsep(&line,">");
-    char * fileName = strsep(&line,">");
+    char * fileName = malloc(256);
+    fileName = strsep(&line,">");
     while (*fileName == ' ') {
     	fileName++;
     }
