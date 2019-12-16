@@ -154,8 +154,7 @@ void redirectless (char * line) {
   }
   int backup = dup (0);
   dup2(file,0);
-  char * test = "ls -l";
-  executeOne(parse_args(test));
+  executeOne(parse_args(command));
   dup2 (backup, 0);
   close(file);
 }
