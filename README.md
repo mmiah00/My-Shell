@@ -3,6 +3,7 @@
 ## Bugs
     - Output redirection > was able to work (hopefully) and write to the file when running ls -l > file for
       example. However, w > whofile leaves the file blank for some reason.
+    - two or more semicolons back does not work
 
 ## Our Features
     - Forks and execute commands. Commands with unnecessary spaces at the beginning and end will still be
