@@ -1,5 +1,9 @@
 # myshell
 
+## Bugs
+    - Output redirection > was able to work (hopefully) and write to the file when running ls -l > file for example. However, w > whofile 
+        leaves the file blank for some reason.
+
 ## Our Features: 
     - char ** parse_args (char * line) 
       - parses through the line you are trying to execute
