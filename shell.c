@@ -115,7 +115,7 @@ void redirectgreater (char * line) {
     }
   }
   //printf("filename is %s command is %s", fileName, command);
-  int file = open(fileName, O_WRONLY | O_CREAT,0666);
+  int file = open(fileName, O_WRONLY | O_CREAT,0644);
   int backup = dup (1);
   dup2(file,1);
   executeOne(parse_args(command));
@@ -154,9 +154,7 @@ void redirectless (char * line) {
   }
   int backup = dup (0);
   dup2(file,0);
-  char * test = "ls";
-  char ** args = parse_args(test);
-  executeOne(args);
+  executeOne(parse_args(command));
   dup2 (backup, 0);
   close(file);
 }
