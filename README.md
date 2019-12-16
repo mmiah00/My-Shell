@@ -18,10 +18,10 @@
       - takes a parsed line and executes the command 
       
     - void redirectgreater (char * line) 
-      - takes the command line as a parameter
-      - does not return anything 
-      - runs the first part of the line (before the >) and makes a new file (which is named from the second part)
-        - redirects stdout of the first part to a file
+      - takes the command line as a parameter. Separate command line by the > into two parts. First part is the
+      command while second is the filename. Removed leading and trailing spaces from both of them and then executed
+      after backingup with dup and redirecting with dup2.
+      - does not return anything
  
     - void redirectless (char * line) 
       - same as redirectgreater but is separated by "<"
@@ -31,4 +31,8 @@
       - takes the command line as a parameter
       - does not return anything 
       - reads the input from the first paramter (before the |) and executes it in the second (after |)
+     
+     - void double1 (char * line)
+      - this is for when the command line contains a < followed by a >.
+      - first redirectgreater is ran but instead of execvping the commandline, redirectless is ran.
  
