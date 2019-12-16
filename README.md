@@ -5,8 +5,16 @@
       example. However, w > whofile leaves the file blank for some reason.
     - ls -l > file would create a file with the content of ls not ls -l.
 
-## Our Features: 
-    - 
+## Our Features
+    - Forks and execute commands. Commands with unnecessary spaces at the beginning and end will still be
+      functional.
+    - Is able to execute multiple commands on one line separated by semicolons.
+    - Is able to execute single pipe like ls | wc.
+    - Redirect is somewhat functional.
+    
+## Attempted
+    - Tried redirecting w command.
+    - Attempted multiple redirection in one command line.
     
 ## Headers
     - char ** parse_args (char * line) 
