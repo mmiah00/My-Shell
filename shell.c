@@ -93,34 +93,63 @@ void executeOne (char** args) {
 }
 
 void redirectgreater (char * line) {
-  fflush(stdout);
-  //printf("LINE IS ->%s<-\n", line);
-  //char ** command = malloc (256);
-  char * command = strsep(&line,">");
-  //printf("%s",command[0]);
-  char * fileName = strsep(&line,">");
- //char ** command = parse_args (line);
-  /*
-  char * fileName = command[1];
-  while (*fileName == ' ') {
-  	fileName++;
-  }*/
-  while (*fileName == ' ') {
-  	fileName++;
+  int f = fork();
+  if (f){
+    int status;
+    wait(&status);
   }
-  int i = strlen(command)-1;
-  for (; i > 1; i--){
-    if (command[i] == ' ' || command[i] == '\n' ){
-      command[i] = 0;
+  else{
+    char * command = strsep(&line,">");
+    char * fileName = strsep(&line,">");
+    while (*fileName == ' ') {
+    	fileName++;
     }
+    int i = strlen(command)-1;
+    for (; i > 1; i--){
+      if (command[i] == ' ' || command[i] == '\n' ){
+        command[i] = 0;
+      }
+    }
+    int fd;
+    fd = open(fileName, O_CREAT | O_WRONLY, 0644);
+    if (fd < 0){
+      printf("adfadsf\n");
+    }
+    char ** cA = parse_args(command);
+    dup(STDOUT_FILENO);
+    dup2(fd, STDOUT_FILENO);
+    execvp(cA[0], cA);
+    close(fd);
+
   }
-  //printf("filename is %s command is %s", fileName, command);
-  int file = open(fileName, O_WRONLY | O_CREAT,0644);
-  int backup = dup (1);
-  dup2(file,1);
-  executeOne(parse_args(command));
-  dup2 (backup, 1);
-  close(file);
+         //  fflush(stdout);
+         //  //printf("LINE IS ->%s<-\n", line);
+         //  //char ** command = malloc (256);
+         //  char * command = strsep(&line,">");
+         //  //printf("%s",command[0]);
+         //  char * fileName = strsep(&line,">");
+         // //char ** command = parse_args (line);
+         //  /*
+         //  char * fileName = command[1];
+         //  while (*fileName == ' ') {
+         //  	fileName++;
+         //  }*/
+         //  while (*fileName == ' ') {
+         //  	fileName++;
+         //  }
+         //  int i = strlen(command)-1;
+         //  for (; i > 1; i--){
+         //    if (command[i] == ' ' || command[i] == '\n' ){
+         //      command[i] = 0;
+         //    }
+         //  }
+         //  //printf("filename is %s command is %s", fileName, command);
+         //  int file = open(fileName, O_WRONLY | O_CREAT,0644);
+         //  int backup = dup (1);
+         //  dup2(file,1);
+         //  executeOne(parse_args(command));
+         //  dup2 (backup, 1);
+         //  close(file);
   /*
   char ** args;
   args [0] = filefrom;
