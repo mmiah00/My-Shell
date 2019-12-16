@@ -21,6 +21,16 @@ int main(int argc, char *argv[]){
     for (i = 0; allCommands[i]; i++){
       char * line = strdup (allCommands[i]);
       //printf("line is ->%s<-",line);
+      while (*line == ' ') {
+        line++;
+      }
+      int u = strlen(line)-1;
+      for (; u > 1; u--){
+        if (line[u] == ' ' || line[u] == '\n' ){
+          line[u] = 0;
+        }
+      }
+
       char ** args = parse_args (line);
       //printf("->%s<-", line);
 
