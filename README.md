@@ -32,7 +32,7 @@
       - does not return anything 
       - reads the input from the first paramter (before the |) and executes it in the second (after |)
      
-     - void double1 (char * line)
+     - void double1 (char * line)  -unsucessful-
       - this is for when the command line contains a < followed by a >.
       - first redirectgreater is runned but instead of execvping the commandline, redirectless is runned.
  
