@@ -6,9 +6,9 @@ main.o: main.c shell.h
 
 shell.o: shell.c shell.h
 	gcc -c shell.c
-	
+
 run:
-	./program
+	./program.exe
 
 clean:
 	rm *.o
