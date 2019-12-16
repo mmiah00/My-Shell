@@ -149,11 +149,15 @@ void redirectless (char * line) {
   }
 
   int file = open(fileName, O_RDONLY,0644);
+  if (file == -1){
+    printf("file doesnt open\n");
+  }
   int backup = dup (0);
   dup2(file,0);
-  close(file);
-  executeOne(parse_args(command));
+  char * test = "ls -l";
+  executeOne(parse_args(test));
   dup2 (backup, 0);
+  close(file);
 }
 
 void mypipe (char * line) {
