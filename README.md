@@ -6,6 +6,9 @@
     - ls -l > file would create a file with the content of ls not ls -l.
 
 ## Our Features: 
+    - 
+    
+## Headers
     - char ** parse_args (char * line) 
       - parses through the line you are trying to execute
       - returns an array of strings with each command, flags, and parameter 
