@@ -7,6 +7,11 @@
 #include <errno.h>
 #include "shell.h"
 
+/**
+ * char ** parse_args (char * line):
+    takes the command line and parses by spaces
+    returns a char ** containing the command and each parameter
+ */
 char ** parse_args (char * line) {
   char ** ans = malloc (256);
   int i = 0;
@@ -22,6 +27,11 @@ char ** parse_args (char * line) {
   return ans;
 }
 
+/**
+ * char ** parse_argsSemi (char * line):
+    takes the command line and parses by semicolon
+    returns a char ** containing the commands on each side of the semi colon
+ */
 char ** parse_argsSemi (char * line) {
   char ** ans = malloc (256);
   int i = 0;
@@ -78,7 +88,12 @@ char ** parse_argsSpecial (char * line, char * character) {
   return ans;
 }
 
-
+/**
+ * void executeOne (char ** args):
+    takes the parsed command line and executes the commands
+    prints "command does not work" if it didn't execute
+    does not return anything
+ */
 void executeOne (char** args) {
   int id = fork(); //creates child process
   if (id == 0){ //child
@@ -92,6 +107,13 @@ void executeOne (char** args) {
   }
 }
 
+/**
+ * void redirectgreater (char * line):
+    takes the command line
+    parses by > to find the command and the filename
+    creates the file with the given filename and writes the output of the command
+    does not return anything
+ */
 void redirectgreater (char * line) {
   int f = fork();
   if (f){
@@ -163,6 +185,13 @@ void redirectgreater (char * line) {
   */
 }
 
+/**
+ * void redirectless (char * line):
+    takes the command line
+    parses by < to find the command and the filename
+    creates the file with the given filename and writes the input of the command
+    does not return anything
+ */
 void redirectless (char * line) {
   fflush(stdout);
   char * command = strsep(&line,"<");
@@ -189,6 +218,13 @@ void redirectless (char * line) {
   close(file);
 }
 
+/**
+ * void pipe (char * line):
+    takes the command line
+    parses by | to find both parameters
+    uses the output of the first function to be the input of the second
+    does not return anything
+ */
 void mypipe (char * line) {
   //char ** command = malloc (256);
   char * left = strsep(&line,"|"); //string left of |
@@ -236,6 +272,14 @@ void mypipe (char * line) {
   //dup2(backup,0);
   //dup2(backup2,1);
 }
+
+/**
+ * void double1 (char * line):
+    takes the command line
+    runs a command line with both > and <
+    uses similar function as redirectless and redirectgreater
+    does not return anything
+ */
 void double1(char * line){//something < something > something
   char * command = strsep(&line,">");
   char * fileName = strsep(&line,">");
