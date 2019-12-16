@@ -93,11 +93,10 @@ void redirectgreater (char * line) {
     while (*fileName == ' ') {
     	fileName++;
     }
-    int i = strlen(command)-1;
-    for (; i > 1; i--){
-      if (command[i] == ' ' || command[i] == '\n' ){
-        command[i] = 0;
-      }
+    int u = strlen(command)-1;
+    while( command[u] == ' ' || command[u] == '\n'){
+      command[u] = 0;
+      u--;
     }
     int fd;
     fd = open(fileName, O_CREAT | O_WRONLY, 0644);
@@ -128,11 +127,10 @@ void redirectless (char * line) {
   while (*fileName == ' ') {
     fileName++;
   }
-  int i = strlen(command)-1;
-  for (; i > 1; i--){
-    if (command[i] == ' ' || command[i] == '\n' ){
-      command[i] = 0;
-    }
+  int u = strlen(command)-1;
+  while( command[u] == ' ' || command[u] == '\n'){
+    command[u] = 0;
+    u--;
   }
 
   int file = open(fileName, O_RDONLY,0644);

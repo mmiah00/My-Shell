@@ -25,12 +25,11 @@ int main(int argc, char *argv[]){
         line++;
       }
       int u = strlen(line)-1;
-      for (; u > 1; u--){
-        if (line[u] == ' ' || line[u] == '\n' ){
-          line[u] = 0;
-        }
+      while( line[u] == ' ' || line[u] == '\n'){
+        line[u] = 0;
+        u--;
       }
-
+      //printf("line is ->%s<-",line);
       char ** args = parse_args (line);
       //printf("->%s<-", line);
 
