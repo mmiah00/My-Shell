@@ -20,7 +20,7 @@
     - void redirectgreater (char * line) 
       - takes the command line as a parameter. Separate command line by the > into two parts. First part is the
       command while second is the filename. Removed leading and trailing spaces from both of them and then executed
-      after backingup with dup and redirecting with dup2.
+      (with executeOne) after backingup with dup and redirecting with dup2.
       - does not return anything
  
     - void redirectless (char * line) 
