@@ -34,5 +34,5 @@
      
      - void double1 (char * line)
       - this is for when the command line contains a < followed by a >.
-      - first redirectgreater is ran but instead of execvping the commandline, redirectless is ran.
+      - first redirectgreater is runned but instead of execvping the commandline, redirectless is runned.
  
