@@ -84,7 +84,7 @@ void executeOne (char** args) {
   if (id == 0){ //child
     int num = execvp(args[0], args);
     if (num == -1){
-      printf("%s\n", strerror(errno));
+      printf("command does not work\n");
     }
   }
   else{ //parent
