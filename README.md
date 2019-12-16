@@ -3,6 +3,7 @@
 ## Bugs
     - Output redirection > was able to work (hopefully) and write to the file when running ls -l > file for example. 
         However, w > whofile leaves the file blank for some reason.
+    - ls -l > file would create a file with the content of ls not ls -l.
 
 ## Our Features: 
     - char ** parse_args (char * line) 
